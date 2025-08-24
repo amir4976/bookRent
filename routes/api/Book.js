@@ -5,12 +5,11 @@ const BookController = require("../../controllers/BookController");
 router
   .route("/Books")
   .get(BookController.GetBook)
-  .post(BookController.PostBook)
-
+  .post(BookController.PostBook);
 
 router
   .route("/Books/:id")
   .get(BookController.GetBookById)
-  .put(BookController.PutBookById);
+  .put(BookController.PutBookById)
   .delete(BookController.DeleteBookById);
 module.exports = router;

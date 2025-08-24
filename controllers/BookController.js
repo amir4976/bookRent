@@ -10,8 +10,6 @@ const GetBook = async (req, res) => {
   res.send(AllBooks);
 };
 
-
-
 // 📚 اضافه کردن کتاب
 const PostBook = async (req, res) => {
   const { title, author, price, quantity, category, description, status } =
@@ -46,8 +44,6 @@ const PostBook = async (req, res) => {
   }
 };
 
-
-
 const GetBookById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -58,18 +54,16 @@ const GetBookById = async (req, res) => {
   }
 };
 
-
-
 const PutBookById = async (req, res) => {
-  const { id } = req.params;   // گرفتن id از URL
-  const newData = req.body;    // دیتاهای جدیدی که کاربر فرستاده
+  const { id } = req.params; // گرفتن id از URL
+  const newData = req.body; // دیتاهای جدیدی که کاربر فرستاده
 
   try {
     // آپدیت کتاب
     const updatedBook = await Book.findByIdAndUpdate(
-      id,             // id کتاب
+      id, // id کتاب
       { $set: newData }, // چی رو آپدیت کنیم
-      { new: true, runValidators: true } 
+      { new: true, runValidators: true }
       // new: true => سند آپدیت‌شده رو برمی‌گردونه
       // runValidators: true => مطمئن میشه قوانین اسکیما رعایت بشن
     );
@@ -83,11 +77,21 @@ const PutBookById = async (req, res) => {
       updatedBook,
     });
   } catch (error) {
-    res.status(500).json({ message: "خطا در آپدیت کتاب", error: error.message });
+    res
+      .status(500)
+      .json({ message: "خطا در آپدیت کتاب", error: error.message });
   }
 };
 
-
+const DeleteBookById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const findBook = await Book.findByIdAndDelete(id);
+    res.send(findBook);
+  } catch (error) {
+    res.status(404).send("book dident find");
+  }
+};
 
 
 
@@ -96,4 +100,5 @@ module.exports = {
   PostBook,
   GetBookById,
   PutBookById,
+  DeleteBookById,
 };
